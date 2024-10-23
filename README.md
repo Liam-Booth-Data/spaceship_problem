@@ -12,7 +12,7 @@ This dataset was produced by Kaggle and it contains various features like passen
 
 ### Loading and Initial Exploration
 
-I began by importing all the relevant python packages and then import train dataset which was in a csv format. The dataset was loaded into a Pandas DataFrame using the `pd.read_csv()` function. 
+I began by importing all the relevant python packages and then importing the train dataset which was in a csv format. The dataset was loaded into a Pandas DataFrame using the `pd.read_csv()` function. 
 
 The initial exploration of the dataset was then conducted to gain insights into its structure and contents.
 
@@ -20,11 +20,12 @@ The initial exploration of the dataset was then conducted to gain insights into 
 
 ### Data Selection and Renaming
 
-From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus on the relevant columns for the problem. However doing further digging it seems that the passengers were split into groups and there share the same suffix e.g. '0001' depending on what group they were in. This would be a valuable categorical feature.
+From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus on the relevant columns for the problem. However doing further digging it seems that the passengers were split into groups and therefore share the same suffix e.g. '0001' depending on what group they were in. This would be a valuable categorical feature.
 
 `df.drop(['Name'], axis=1, inplace=True)`
 
 From here, I decided to split the PassengerId and Cabin features to capture their informations more clearly. 
+
 `df[['Deck', 'Num', 'Side']] = df['Cabin'].str.split('/', expand=True)
 df.drop(['Cabin'], axis=1, inplace=True)`
 
@@ -33,13 +34,40 @@ df.drop(['PassengerId'], axis=1, inplace=True)`
 
 ### Handling Missing Values
 
-Rows containing missing values in the 'weight' and 'price' columns were dropped from the dataset to ensure data integrity and accuracy in subsequent calculations.
+Rows containing missing values in the any of the records needed to be dropped as a large majority of machine learning models do not allow for unknown values.
 
-![Screenshot: Rows with Missing Values](screenshots/01_initial_exploration/screenshot3.png)
+I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high autocorrelation.
 
-`bin_dataset.dropna(subset=['weight', 'price'],inplace=True)`
+`df.dropna(subset=['Num'], inplace=True)`
 
-![Screenshot: Dropping Rows with Missing Values](screenshots/01_initial_exploration/screenshot4.png)
+To carry on with the handling of the categorical feautres, I then created boolean columns (with int64 datatypes) to capture missing values for each categorical feature which had missing values.
+
+`df['CryoSleep_Missing'] = df['CryoSleep'].isnull().astype(int) # int64 by default
+df['Destination_Missing'] = df['Destination'].isnull().astype(int)
+df['VIP_Missing'] = df['VIP'].isnull().astype(int)
+df['HomePlanet_Missing'] = df['HomePlanet'].isnull().astype(int)`
+
+After this, I one-hot encoded the categorical features so that ML models could interpret the categorical information. Note that this transformation is an requirement for a lot of ML models.
+
+`df = pd.get_dummies(df, columns=['HomePlanet', 'Side', 'CryoSleep', 'Destination', 'VIP'], dtype=int)`
+
+Then for the last categorical feature I converted the category labels directly into integers to highlight the ordinal aspect of this feature. In other words, I wanted to clearly show the ML model that there was an order to the decks of the ship i.e. Deck A is 1, Deck B is 2, and so on.
+
+`deck_mapping = {
+    'A': 7, # reverse order to highlight Deck A is highest deck
+    'B': 6,
+    'C': 5,
+    'D': 4,
+    'E': 3,
+    'F': 2,
+    'G': 1,
+    'T': 0
+}`
+`df['Deck'] = df['Deck'].map(deck_mapping)`
+
+After these transformations I was left with a dataframe looking like the following:
+
+![Screenshot: Dropping Rows with Missing Values](screenshots/02.png)
 
 ### Standardizing Weight Units
 

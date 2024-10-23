@@ -1,22 +1,22 @@
-# Knapsack Problem Solver with Google OR-Tools
+# Spaceship Titanic Problem with Kaggle
 
 ## Executive Summary
 
-This project explores the application of the Knapsack Problem using Google OR-Tools and its potential benefits in aiding retail organizations. 
-The Knapsack Problem is a classic optimization problem that helps organizations make decisions about resource allocation, product selection, and more.
+This project explores the Spaceship Titanic problem using machine learning (classifiers), to accurately predict a target variable (whether a passenger would be transported to another dimension) depending on a set of given features. The potential benefits are adding to the data science research community by showcasing new ways of tacking this classification task, which will also help companies discover new ways to solve business problems.
+The Spaceship Titanic problem is a new ML classification problem with the goal of getting an highly accurate predictive model to help push the boundaries of data science.
 
 ## Data Preprocessing
 
-The dataset used for this project was sourced from Kaggle's ["Amazon Product Dataset 2020"](https://www.kaggle.com/datasets/promptcloud/amazon-product-dataset-2020). 
-This dataset was chosen due to its continuous ID numbers, shipping weights, and product prices, making it suitable for our exploration of the Knapsack Problem in a retail context.
+The dataset used for this project was sourced from Kaggle's ["Spaceship Titanic Data"](https://www.kaggle.com/c/spaceship-titanic/data). 
+This dataset was produced by Kaggle and it contains various features like passenger expenditures on different services all the way to boolean features like did the customer have VIP, CyroSleep and so on. There are around 9,000 records within the train set, and with 13 features, there was enough data here to faciliate testing whether a classifier could accurately predict the target variable.
 
 ### Loading and Initial Exploration
 
-We began by importing the CSV dataset into a Pandas DataFrame using the `pd.read_csv()` function. 
+I began by importing all the relevant python packages and then import train dataset which was in a csv format. The dataset was loaded into a Pandas DataFrame using the `pd.read_csv()` function. 
 
 The initial exploration of the dataset was then conducted to gain insights into its structure and contents.
 
-![Screenshot: DataFrame Info](screenshots/01_initial_exploration/screenshot1.png)
+![Screenshot: DataFrame Info](screenshots/01.png)
 
 ### Data Selection and Renaming
 

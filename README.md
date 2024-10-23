@@ -20,14 +20,16 @@ The initial exploration of the dataset was then conducted to gain insights into 
 
 ### Data Selection and Renaming
 
-To focus on the relevant columns for the Knapsack Problem, we selected the 'Uniq Id' 'Shipping Weight' and 'Selling Price' columns.
+From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus on the relevant columns for the problem. However doing further digging it seems that the passengers were split into groups and there share the same suffix e.g. '0001' depending on what group they were in. This would be a valuable categorical feature.
 
-`bin_dataset = df[['Uniq Id','Shipping Weight','Selling Price']]`
+`df.drop(['Name'], axis=1, inplace=True)`
 
-These columns were then renamed as 'id', 'weight' and 'price' for clarity and consistency.
-`bin_dataset = bin_dataset.rename(columns={'Uniq Id':'id','Shipping Weight':'weight','Selling Price':'price'})`
+From here, I decided to split the PassengerId and Cabin features to capture their informations more clearly. 
+`df[['Deck', 'Num', 'Side']] = df['Cabin'].str.split('/', expand=True)
+df.drop(['Cabin'], axis=1, inplace=True)`
 
-![Screenshot: Renamed Columns](screenshots/01_initial_exploration/screenshot2.png)
+`df[['PassengerGroup', 'PassengerNumber']] = df['PassengerId'].str.split('_', expand=True)
+df.drop(['PassengerId'], axis=1, inplace=True)`
 
 ### Handling Missing Values
 

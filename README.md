@@ -183,6 +183,18 @@ The below is an graph which highlights one of the processes within PCA. It's sho
 
 And this is the whole idea behind PCA, trying to retain the most amount of information whilst decreasing the dimensional space to k. k here, is a number you decide.
 
+Anyway, I used the PCA class from sklearn to efficiently reduce my 26 dimensional feature dataset, down to 2 dimensions (or 2 features).
+
+![Screenshot: PCA](screenshots/08.png)
+
+With the features now down to two dimensions, I could visualise the Transported field:
+
+![Screenshot: PCA plot code](screenshots/09.png)
+
+![Screenshot: PCA plot](screenshots/10.png)
+
+From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linearl seperability at all. Therefore, my initial thoughts were that decision trees would be best for this classification task due to their flexible nature. I will talk more about this in the next chapter.
+
 ### Final Dataset
 
 ![Screenshot: Final Dataset](screenshots/01_initial_exploration/screenshot10.png)

@@ -1,4 +1,5 @@
 # Spaceship Titanic Problem with Kaggle
+# ADD IN REFERENCES WHERE I HAVE TALKED ABOUT RECOMMENDED PARAMETERS
 
 ## Executive Summary
 
@@ -38,7 +39,7 @@ From here, I decided to split the PassengerId and Cabin features to capture thei
 
 Rows containing missing values in the any of the records needed to be dropped as a large majority of machine learning models do not allow for unknown values.
 
-I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high autocorrelation.
+I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high co-linearity.
 
 `df.dropna(subset=['Num'], inplace=True)`
 
@@ -166,14 +167,21 @@ And then used the Random Forest classification model, from the sklearn package, 
 
 `plt.tight_layout()`
 
-
 ![Screenshot: Feature Importance Graph](screenshots/06.png)
 
-### Column Removal
+It can be seen that in the case of training this Random Forest Classifier, the features 'Num' (room_number), 'PassengerGroup' and 'Age', are the three features that have the highest importance. I was surprised by these results as I thought the 'Deck' feature would have more of an importance. This graph also highlights the number of features which have very little importance or value to the model. I will discuss these more in the next chapter.
 
-![Screenshot: Removing Columns](screenshots/01_initial_exploration/screenshot9.png)
+### Reducing Model Dimensionality for Visualisation Purposes
 
-The original 'price' and 'weight' columns were removed from the dataset, as they were replaced with the standardized 'price' and 'weight_kg' columns.
+Currently there are 26 features, a mix of categorical and numerical, within the dataset. To visualise the spread of the classes (0, 1) within 'Transported' (the target variable), I would like to reduce the dimensions to 2, whilst keeping the majority of information. This is so that I can then plot the Transported variable on a 2-dimensional scatter plot. This will then allow me to observe whether the classes are linearly seperable within Transported.
+
+To reduce the number of dimensions, a common technique is using Principal Component Analysis. In short, PCA creates a covariance matrix, obtains the eigenvectors and eigenvalues from this matrix, construct a projection matrix (W) from the (sorted) top k eigenvectors, and lastly transform the orginal matrix (your features) using the project matrix (W) to get the new k-dimensional subspace.
+
+The below is an graph which highlights one of the processes within PCA. It's shows that most of the variance within all of the k-features can be explained by just two featues.
+
+![Screenshot: PCA](screenshots/07.png)
+
+And this is the whole idea behind PCA, trying to retain the most amount of information whilst decreasing the dimensional space to k. k here, is a number you decide.
 
 ### Final Dataset
 

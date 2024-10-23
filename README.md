@@ -26,11 +26,11 @@ From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus o
 
 From here, I decided to split the PassengerId and Cabin features to capture their informations more clearly. 
 
-`df[['Deck', 'Num', 'Side']] = df['Cabin'].str.split('/', expand=True)
-df.drop(['Cabin'], axis=1, inplace=True)`
+`df[['Deck', 'Num', 'Side']] = df['Cabin'].str.split('/', expand=True)`
+`df.drop(['Cabin'], axis=1, inplace=True)`
 
-`df[['PassengerGroup', 'PassengerNumber']] = df['PassengerId'].str.split('_', expand=True)
-df.drop(['PassengerId'], axis=1, inplace=True)`
+`df[['PassengerGroup', 'PassengerNumber']] = df['PassengerId'].str.split('_', expand=True)`
+`df.drop(['PassengerId'], axis=1, inplace=True)`
 
 ### Handling Missing Values
 
@@ -42,10 +42,10 @@ I first tackled the room number feature, 'Num', and as it only had 199 missing v
 
 To carry on with the handling of the categorical feautres, I then created boolean columns (with int64 datatypes) to capture missing values for each categorical feature which had missing values.
 
-`df['CryoSleep_Missing'] = df['CryoSleep'].isnull().astype(int) # int64 by default
-df['Destination_Missing'] = df['Destination'].isnull().astype(int)
-df['VIP_Missing'] = df['VIP'].isnull().astype(int)
-df['HomePlanet_Missing'] = df['HomePlanet'].isnull().astype(int)`
+`df['CryoSleep_Missing'] = df['CryoSleep'].isnull().astype(int) # int64 by default`
+`df['Destination_Missing'] = df['Destination'].isnull().astype(int)`
+`df['VIP_Missing'] = df['VIP'].isnull().astype(int)`
+`df['HomePlanet_Missing'] = df['HomePlanet'].isnull().astype(int)`
 
 After this, I one-hot encoded the categorical features so that ML models could interpret the categorical information. Note that this transformation is an requirement for a lot of ML models.
 
@@ -63,11 +63,23 @@ Then for the last categorical feature I converted the category labels directly i
     'G': 1,
     'T': 0
 }`
+
 `df['Deck'] = df['Deck'].map(deck_mapping)`
 
-After these transformations I was left with a dataframe looking like the following:
+After these transformations I was left with a dataframe looking like the following (this is just an subset due to the size of the dataframe):
 
 ![Screenshot: Dropping Rows with Missing Values](screenshots/02.png)
+
+I now needed to handle the missing/invalid values within the numerical data. From some exploratory data anaylsis it was found that the 'Age' field had entries of 0. It doesn't make sense for someone to be 0 years old, therefore these values were set to missing with `df['Age'] = df['Age'].replace(0, np.nan)`.
+
+`Age	175`
+RoomService	177
+FoodCourt	178
+ShoppingMall	206
+Spa	181
+VRDeck	184`
+
+
 
 ### Standardizing Weight Units
 

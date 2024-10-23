@@ -98,10 +98,22 @@ And as you can see all missing values were removed from the numeric fields:
 
 ![Screenshot: Missing Values 02](screenshots/03.png)
 
-### Standardizing Weight Units
+### Standardizing the feautres 
 
-To standardize the weight units across the dataset, we extracted and converted the weight values to kilograms. 
-This involved handling different units such as 'pounds' and 'ounces' by applying a conversion function.
+Standardizing features so that they have mean's of 0 and unit variances of 1, helps machine learning models converge (stabilize) during training alot quicker. In other words, it helps these models get to an optimal accuracy faster. This is due to the fact that a lot of weights and biases within Ml models are set to 0 in their initializations, and if features are standardized then the optimization algorithm (usually gradient descent) can reach the global minima quicker.
+
+The equation for standardizing a feature is as follows:
+
+![Screenshot: Standardization Equation](screenshots/04.png)
+
+This equation can be done with numpy (a package within python) and setting our dataframe to an numpy array, however sci-kit learn provides methods to standardize features a lot more effiecently. To note it does not make sense to standardize categorical feautres which have been encoded, therefore only the numeric features were standardized.
+
+`scaler = StandardScaler() # part of sci-kit learn library`
+
+`numeric_cols = ['Age', 'RoomService', 'FoodCourt', 'ShoppingMall', 'Spa', 'VRDeck']`
+
+`df[numeric_cols] = scaler.fit_transform(df[numeric_cols])`
+
 
 ![Screenshot: Weight Conversion](screenshots/01_initial_exploration/screenshot5.png)
 

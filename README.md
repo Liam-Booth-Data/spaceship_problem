@@ -98,7 +98,7 @@ And as you can see all missing values were removed from the numeric fields:
 
 ![Screenshot: Missing Values 02](screenshots/03.png)
 
-### Standardizing the feautres 
+### Standardizing the Features 
 
 Standardizing features so that they have mean's of 0 and unit variances of 1, helps machine learning models converge (stabilize) during training alot quicker. In other words, it helps these models get to an optimal accuracy faster. This is due to the fact that a lot of weights and biases within Ml models are set to 0 in their initializations, and if features are standardized then the optimization algorithm (usually gradient descent) can reach the global minima quicker.
 
@@ -114,18 +114,41 @@ This equation can be done with numpy (a package within python) and setting our d
 
 `df[numeric_cols] = scaler.fit_transform(df[numeric_cols])`
 
+As you can see this standardized the numeric feautres:
 
-![Screenshot: Weight Conversion](screenshots/01_initial_exploration/screenshot5.png)
+![Screenshot: Standardization Equation](screenshots/05.png)
 
-There was one row which contained '.' instead of a numeric value, this row was dropped 
+### Evaulating Feature Importance
 
-![Screenshot: Weight Conversion Errors](screenshots/01_initial_exploration/screenshot6.png)
+As I now had I large number of features, 26 to be exact, I wanted to find out which features had the most importance for this classification problem. This was largely due to the fact that a large number of the features were encoded features, and therefore I suspected alot of co-linearilty as apparent. Co-linearilty is anything bad, but it just introduces rendunant features, i.e. you could get the same information/worth out of one feature instead of two.
 
-### Handling Price Values
+I split the features and target varaible:
 
-![Screenshot: Price Conversion](screenshots/01_initial_exploration/screenshot7.png)
+`X_train = df.drop(['Transported'], axis=1)`
 
-We also cleaned and standardized the price values, removing non-numeric characters, currency symbols and errors from the scraped data.
+`y_train = df['Transported']`
+
+And then used the Random Forest classification model, from the sklearn package, to understand which features had the most importance. This works because as the Random Forest is creating it's decision trees for the task, it also tracks the importance of each variable (feature). This happens because the model uses these values to understand which features increase the model accuracy most by having greater impurity reductions.
+
+`from sklearn.ensemble import RandomForestClassifier
+feat_labels = df.columns.drop('Transported')
+forest = RandomForestClassifier(n_estimators=500, random_state=1)
+forest.fit(X_train, y_train)
+importances = forest.feature_importances_
+indices = np.argsort(importances)[::-1]
+for f in range(X_train.shape[1]):
+     print("%2d) %-*s %f" % (f + 1, 30,
+                             feat_labels[indices[f]],
+                             importances[indices[f]]))
+plt.title('Feature importance')
+plt.bar(range(X_train.shape[1]),
+         importances[indices],
+         align='center')
+plt.xticks(range(X_train.shape[1]),
+            feat_labels[indices], rotation=90)
+plt.xlim([-1, X_train.shape[1]])
+plt.tight_layout()`
+
 
 ![Screenshot: Price Conversion Errors](screenshots/01_initial_exploration/screenshot8.png)
 

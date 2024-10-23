@@ -195,22 +195,17 @@ With the features now down to two dimensions, I could visualise the Transported 
 
 From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linearl seperability at all. The next stage is now to decide which model to use and carry out training and testing.
 
-### Final Dataset
+## Training and testing a model
 
-![Screenshot: Final Dataset](screenshots/01_initial_exploration/screenshot10.png)
+In this section, we walk through the steps of training a ML model to solve the classification problem, with the cleaned and standardized features. The classification problem is to accuractely predict which passengers will be transported to an alternate dimension, therefore the goal is to minimize the error function (the loss). 
 
-The resulting cleaned and standardized dataset was saved for future use, and it contains 'id', 'weight_kg', and 'price' columns.
+### Deciding on what model to use
 
-## Solving the Knapsack Problem
+As our dataset contains a lot features that are both numeric and categorical I decided to start of my experiments by using decision trees with boosting. This would be an ensemble model, as multiple decision trees (weak learners) are brought together to create a model which is accurate (low bias) but also genaralizes well to unseen data (low variance). This is where boosting excels as each decision tree added to the model focuses on correcting the residuals (errors) from the previous decision tree. To prevent overfitting too, regularization would have be incorporated to prevent certain weights within the model becoming to 'strong', by adding in weight decay (L2 regularization). Or setting certain features' weights to 0 which effectively removes those irrevelant features, also known as (L1 regularization).
 
-In this section, we walk through the steps of solving the Knapsack Problem using Google OR-Tools with the cleaned and standardized dataset. The Knapsack Problem involves selecting items to maximize value while staying within capacity constraints, which is a valuable optimization technique for retail organizations.
+With all these requirements listed out it is clear that XGBoost would definetly be a good model to try first for this task. The XGBoost model has a gradient boosting algorithm which helps it learn the optimal weights effiecently. Here is a general outline of how the gradient boosting algorithm works for a binary classification problem of either 0 or 1.
 
-### Loading the Cleaned Dataset
-
-We begin by loading the previously cleaned and standardized dataset, which includes 'id', 'weight_kg' and 'price' columns. 
-This dataset is now ready for solving the Knapsack Problem.
-
-![Screenshot: Loading the Cleaned Dataset](screenshots/02_knapsack_problem/screenshot1.png)
+![Screenshot: Gradient Boosting Outline](screenshots/11.png)
 
 ### Random Sampling for Reproducibility
 

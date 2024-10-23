@@ -193,7 +193,7 @@ With the features now down to two dimensions, I could visualise the Transported 
 
 ![Screenshot: PCA plot](screenshots/10.png)
 
-From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linearl seperability at all. Therefore, my initial thoughts were that decision trees would be best for this classification task due to their flexible nature. I will talk more about this in the next chapter.
+From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linearl seperability at all. The next stage is now to decide which model to use and carry out training and testing.
 
 ### Final Dataset
 

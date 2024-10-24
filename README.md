@@ -181,18 +181,9 @@ To use XGBoost optimially I split the dataset into train and validation sets, on
 
 We can see that the model obtained an accuracy score of 83% on the training, and 80% on the validation set, meaning the model probably overfitted slightly. We can plot learning curves to visualise this, and to also see whether the model converged (stabilized) during training.
 
+![Screenshot: Learning Curves Graph](screenshots/14.png)
 
-
-```python
-random_seed = 42
-random.seed(random_seed)
-
-shuffled_df = df.sample(frac=1, random_state=random_seed)
-
-num_samples = 100
-random_subset = shuffled_df.head(num_samples)
-```
-![Screenshot: Sampled Subset](screenshots/02_knapsack_problem/screenshot2.png)
+We can see that after so many
 
 ### Knapsack Problem Solver
 

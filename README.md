@@ -91,21 +91,17 @@ I split the features and target varaible:
 
 `y_train = df['Transported']`
 
-And then used the Random Forest classification model, from the sklearn package, to understand which features had the most importance. This works because as the Random Forest is creating it's decision trees for the task, it also tracks the importance of each variable (feature). This happens because the model uses these values to understand which features increase the model accuracy most by having greater impurity reductions.
+I used the Random Forest classification model from sklearn to identify the most important features. As the model creates its decision trees, it tracks feature importance by measuring how much each feature improves model accuracy through impurity reductions.
 
 ![Screenshot: Feature Importance Code](screenshots/12.png)
 
 ![Screenshot: Feature Importance Graph](screenshots/06.png)
 
-It can be seen that in the case of training this Random Forest Classifier, the features 'Num' (room_number), 'PassengerGroup' and 'Age', are the three features that have the highest importance. I was surprised by these results as I thought the 'Deck' feature would have more of an importance. This graph also highlights the number of features which have very little importance or value to the model. I will discuss these more in the next chapter.
+For the Random Forest Classifier, 'Num' (room_number), 'PassengerGroup', and 'Age' are the top features. Surprisingly, 'Deck' had less importance. The graph also shows features with little value to the model, which I’ll discuss further in the next chapter.
 
 ### Reducing Model Dimensionality for Visualisation Purposes
 
-Currently there are 26 features, a mix of categorical and numerical, within the dataset. To visualise the spread of the classes (0, 1) within 'Transported' (the target variable), I would like to reduce the dimensions to 2, whilst keeping the majority of information. This is so that I can then plot the Transported variable on a 2-dimensional scatter plot. This will then allow me to observe whether the classes are linearly seperable within Transported.
-
-To reduce the number of dimensions, a common technique is using Principal Component Analysis. In short, PCA creates a covariance matrix, obtains the eigenvectors and eigenvalues from this matrix, constructs a projection matrix (W) from the (sorted) top k eigenvectors, and lastly transform the orginal matrix (your features) using the projection matrix (W) to get the new k-dimensional subspace.
-
-The below is an graph which highlights one of the processes within PCA. It's shows that most of the variance within all of the k-features can be explained by just two featues.
+The dataset has 26 features, both categorical and numerical. To visualize the 'Transported' variable's classes (0, 1) on a 2D scatter plot, we need to reduce dimensions to 2 while retaining most of the information. Principal Component Analysis (PCA) is a common technique used for this. PCA creates a covariance matrix, extracts eigenvectors and eigenvalues, builds a projection matrix (W) from the top k eigenvectors, and transforms the original matrix using W to get the new k-dimensional subspace. The graph below shows that most variance in the features can be explained by just two features.
 
 ![Screenshot: PCA](screenshots/07.png)
 
@@ -129,15 +125,13 @@ In this section, we walk through the steps of training a ML model to solve the c
 
 ### Deciding on what model to use
 
-As our dataset contains a lot features that are both numeric and categorical I decided to start of my experiments by using decision trees with boosting. This would be an ensemble model, as multiple decision trees (weak learners) are brought together to create a model which is accurate (low bias) but also genaralizes well to unseen data (low variance). This is where boosting excels as each decision tree added to the model focuses on correcting the residuals (errors) from the previous decision tree. To prevent overfitting too, regularization would have be incorporated to prevent certain weights within the model becoming to 'strong', by adding in weight decay (L2 regularization). Or setting certain features' weights to 0 which effectively removes those irrevelant features, also known as (L1 regularization).
-
-With all these requirements listed out it is clear that XGBoost would definetly be a good model to try first for this task. The XGBoost model has a gradient boosting algorithm which helps it learn the optimal weights effiecently. Here is a general outline of how the gradient boosting algorithm works for a binary classification problem of either 0 or 1.
+Given our dataset has numeric and categorical features, I started the experiments with decision trees with boosting. Boosting creates an ensemble model of weak learners, improving accuracy (low bias) and generalization (low variance). Each tree corrects the previous tree's errors. Regularization (L2;removing strong weights with weight decay or L1;removing features by setting their coefficients to 0) prevents overfitting by adjusting or nullifying weights. XGBoost was chosen for its efficient gradient boosting algorithm. Here's an outline of how it works for binary classification.
 
 ![Screenshot: Gradient Boosting Outline](screenshots/11.png)
 
 ### Training XGBoost to predict Transported
 
-To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are from best advice from the data science community (ADD REFERENCE/EVIDENCE HERE). Plus these parameters can be optimized later. 
+To use XGBoost optimally, I split the dataset 95/5 into train and validation sets, using stratify to maintain class distribution. For reproducibility, I set the random state to 0 and imported the XGBoost package, using parameters recommended by the data science community (add reference here). These can be optimized later.
 
 ![Screenshot: Using XGBoost](screenshots/13.png)
 
@@ -145,36 +139,29 @@ We can see that the model obtained an accuracy score of 83% on the training, and
 
 ![Screenshot: Learning Curves Graph](screenshots/14.png)
 
-The preceding graph shows that the model finds the optimal weights for the data, as further training wouldn't decrease the loss by much. The graph also shows how, near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), further adding to the regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (ADD A REFERENCE HERE, TO SHOW WHAT THIS IS).
+The graph shows the model finds optimal weights, as further training wouldn’t reduce loss significantly. Around epoch 600, the model starts overfitting; the training loss continues to decrease, but the validation loss doesn’t. This could be mitigated with early stopping (around epoch 500), adding regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (add reference here).
 
 ### Using the XGBoost to predict Transported
 
-So Kaggle provided two files, a train set in which we have trained the model on, and a test set which hasn't been seen yet. This test set is another csv but this time without the transported (target variable) within it. It is now the models job to predict for each of the test records (passengers) whether they were transported or not.
-
-To make sure I obtain accurate results I first carry out all the transformations I did on the train set, on the test set. This included handling any missing values, standardizing features, encoding categorical features and so on.
-
-After this, the last stage is to call predict on the trained model and passing in the data you want to make predictions for. See below for the predictions variable which holds an array of the predicitons.
+Kaggle provided a training set for model training and a test set without the target variable. The model's job is to predict if each test record (passenger) was transported. I applied all transformations from the training set to the test set—handling missing values, standardizing, and encoding. Finally, I used the trained model to predict the test data, resulting in an array of predictions.
 
 ![Screenshot: Learning Curves Graph](screenshots/14.png)
 
 ### Results and Analysis
 
-Due to the test set coming only with the features, I cannot see how well the model did at predicting the new unseen data. However, due to using a validation set during training I got a good idea how well this model could generalize. Due to the small difference between the train and validation accuracy scores and a small gap between their learning curves, it would be fair to say that we could expect a 80%-85% accuracy score for the test set we have just predicited.
-
-This may seem low, but when taking into account how mixed together these data points were alongs obscure patterns, I think the model has done well. Also to note the benchmark model for this task achieves 79% accruacy and this model achieve 80%+. (ADD IN REFERNCES/EVIDENCE HERE).
+The test set only had features, so I can't confirm the model's performance on new data. However, the validation set during training showed good generalization, with an accuracy of 80%-85%. Given the data complexity, this is a solid result, especially since the benchmark model scored 79% and ours scored 80%+. (Add references/evidence here).
 
 ## Recommendations for Future Iterations
 
-1. **Incorporating Hyperparameter Tuning:** Future iterations of this project could expand from using academic suggestions for the parameters to actually using techniques like grid search or packages like Optuna which achieves the same thing. Hopefully, this would improve the accuracy of the model.
+1. **Incorporating Hyperparameter Tuning:** Use grid search or Optuna to improve model accuracy.
 
-2. **Stopping overfitting:** In future iterations I would also like to reduce the amount of overfitting, by adding on the regualrization front, to increase the models generalizability.
+2. **Stopping overfitting:** Add regularization to enhance generalizability.
 
-3. **Incorporate the model into MLFlow and productionise:** Consider productionising this model with tools like MLFlow and increase work effiency by using its UI for experiments when it comes to testing other hyperparameters/models.
+3. **Incorporate the model into MLFlow and productionise:** Use MLFlow to streamline testing and production.
 
 ## Challenges Encountered
 
-One challenge encountered during the project was trying to use and plot the validation learning curves. This was solved when I realised `model.fit` could take `eval_set` as a parameter.
-Also the handling of missing values was tricky due to the mix of categorical and numerical data. What helped was realising that removing one or two rows which are proving to be difficult during data cleansing, can actually help the model generalize better.
+One challenge was plotting the validation learning curves, solved by using model.fit with eval_set parameter. Handling missing values was tricky due to mixed data types, but removing difficult rows during cleansing improved model generalization.
 
 ![Screenshot: Picture of outer space](screenshots/15.png)
 

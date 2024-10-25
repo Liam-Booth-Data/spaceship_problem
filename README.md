@@ -8,8 +8,7 @@ The Spaceship Titanic problem is a new ML classification problem with the goal o
 
 ## Data Preprocessing
 
-The dataset used for this project was sourced from Kaggle's ["Spaceship Titanic Data"](https://www.kaggle.com/c/spaceship-titanic/data). 
-This dataset was produced by Kaggle and it contains various features like passenger expenditures on different services all the way to boolean features like did the customer have VIP, CyroSleep and so on. There are around 9,000 records within the train set, and with 13 features, there was enough data here to faciliate testing whether a classifier could accurately predict the target variable.
+The dataset, sourced from Kaggle's ["Spaceship Titanic Data"](https://www.kaggle.com/c/spaceship-titanic/data) includes features like passenger expenditures and VIP status. With around 9,000 records and 13 features in the test set, it was suitable for testing classifier accuracy.
 
 ### Loading and Initial Exploration
 
@@ -57,7 +56,7 @@ These were the missing values counts for the numeric fields `df.isnull().sum()`:
 
 ![Screenshot: Missing Values 02](screenshots/20.png)
 
-As there were lots of records in this dataset, I decided to impute the missing values for these features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm. (ADD REFERENCE/EVIDENCE HERE)
+Given the large dataset, I used the KNNImputer algorithm to impute numerical missing values. KNN clusters data points around centroids until points no longer change clusters or reach a maximum iteration count. I used 5 clusters, as 4-6 is recommended for medium datasets (add reference here).
 
 ![Screenshot: Missing Values 02](screenshots/21.png)
 
@@ -73,7 +72,7 @@ The equation for standardizing a feature is as follows:
 
 ![Screenshot: Standardization Equation](screenshots/04.png)
 
-This equation can be done with numpy (a package within python) and setting our dataframe to an numpy array, however sci-kit learn provides methods to standardize features a lot more effiecently. To note it does not make sense to standardize categorical feautres which have been encoded, therefore only the numeric features were standardized.
+You can use numpy to transform the dataframe to an array, but scikit-learn standardizes features more efficiently. Note: only numeric features were standardized, as standardizing encoded categorical features doesn’t make sense.
 
 ![Screenshot: Missing Values 02](screenshots/22.png)
 
@@ -83,7 +82,7 @@ As you can see this standardized the numeric feautres:
 
 ### Evaulating Feature Importance
 
-As I now had I large number of features, 26 to be exact, I wanted to find out which features had the most importance for this classification problem. This was largely due to the fact that a large number of the features were encoded features, and therefore I suspected alot of co-linearilty was apparent. Co-linearilty isn't anything bad, but it just introduces rendunant features, i.e. you could get the same information/worth out of one feature instead of two.
+With 26 features, I needed to identify the most important ones due to suspected co-linearity among encoded features. Co-linearity isn't bad, but it can introduce redundant features, offering the same value from fewer variables.
 
 I split the features and target varaible:
 

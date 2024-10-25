@@ -23,17 +23,9 @@ The initial exploration of the dataset was then conducted to gain insights into 
 
 From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus on the relevant columns for the problem. However doing further digging it seems that the passengers were split into groups and therefore share the same preffix e.g. '0001' depending on what group they were in. This would be a valuable categorical feature.
 
-`df.drop(['Name'], axis=1, inplace=True)`
-
 From here, I decided to split the PassengerId and Cabin features to capture their informations more clearly. 
 
-`df[['Deck', 'Num', 'Side']] = df['Cabin'].str.split('/', expand=True)`
-
-`df.drop(['Cabin'], axis=1, inplace=True)`
-
-`df[['PassengerGroup', 'PassengerNumber']] = df['PassengerId'].str.split('_', expand=True)`
-
-`df.drop(['PassengerId'], axis=1, inplace=True)`
+![Screenshot: DataFrame Info](screenshots/16.png)
 
 ### Handling Missing Values
 
@@ -41,17 +33,11 @@ Rows containing missing values in the any of the records needed to be dropped as
 
 I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to drop these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high co-linearity.
 
-`df.dropna(subset=['Num'], inplace=True)`
+![Screenshot: DataFrame Info](screenshots/17.png)
 
 To carry on with the handling of the categorical feautres, I then created boolean columns (with int64 datatypes) to capture missing values for each categorical feature which had missing values.
 
-`df['CryoSleep_Missing'] = df['CryoSleep'].isnull().astype(int) # int64 by default`
-
-`df['Destination_Missing'] = df['Destination'].isnull().astype(int)`
-
-`df['VIP_Missing'] = df['VIP'].isnull().astype(int)`
-
-`df['HomePlanet_Missing'] = df['HomePlanet'].isnull().astype(int)`
+![Screenshot: DataFrame Info](screenshots/18.png)
 
 After this, I one-hot encoded the categorical features so that ML models could interpret the categorical information. Note that this transformation is an requirement for a lot of ML models.
 
@@ -59,18 +45,7 @@ After this, I one-hot encoded the categorical features so that ML models could i
 
 Then for the last categorical feature I converted the category labels directly into integers to highlight the ordinal aspect of this feature. In other words, I wanted to clearly show the ML model that there was an order to the decks of the ship i.e. Deck A is 1, Deck B is 2, and so on.
 
-`deck_mapping = {
-    'A': 7, # reverse order to highlight Deck A is highest deck
-    'B': 6,
-    'C': 5,
-    'D': 4,
-    'E': 3,
-    'F': 2,
-    'G': 1,
-    'T': 0
-}`
-
-`df['Deck'] = df['Deck'].map(deck_mapping)`
+![Screenshot: Missing Values 02](screenshots/19.png)
 
 After these transformations I was left with a dataframe looking like the following (this is just an subset due to the size of the dataframe):
 
@@ -80,20 +55,11 @@ I now needed to handle the missing/invalid values within the numerical data. Fro
 
 These were the missing values counts for the numeric fields `df.isnull().sum()`:
 
-Age	175
-RoomService	177
-FoodCourt	178
-ShoppingMall	206
-Spa	181
-VRDeck	184
+![Screenshot: Missing Values 02](screenshots/20.png)
 
 As there were lots of records in this dataset, I decided to impute the missing values for these features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm. (ADD REFERENCE/EVIDENCE HERE)
 
-`imputer = KNNImputer(n_neighbors=5)`
-
-`numeric_cols = ['Age', 'RoomService', 'FoodCourt', 'ShoppingMall', 'Spa', 'VRDeck']`
-
-`df[numeric_cols] = imputer.fit_transform(df[numeric_cols])`
+![Screenshot: Missing Values 02](screenshots/21.png)
 
 And as you can see all missing values were removed from the numeric fields:
 
@@ -109,11 +75,7 @@ The equation for standardizing a feature is as follows:
 
 This equation can be done with numpy (a package within python) and setting our dataframe to an numpy array, however sci-kit learn provides methods to standardize features a lot more effiecently. To note it does not make sense to standardize categorical feautres which have been encoded, therefore only the numeric features were standardized.
 
-`scaler = StandardScaler() # part of sci-kit learn library`
-
-`numeric_cols = ['Age', 'RoomService', 'FoodCourt', 'ShoppingMall', 'Spa', 'VRDeck']`
-
-`df[numeric_cols] = scaler.fit_transform(df[numeric_cols])`
+![Screenshot: Missing Values 02](screenshots/22.png)
 
 As you can see this standardized the numeric feautres:
 

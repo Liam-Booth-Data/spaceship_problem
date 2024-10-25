@@ -212,6 +212,8 @@ Due to the test set coming only with the features, I cannot see how well the mod
 One challenge encountered during the project was trying to use and plot the validation learning curves. This was solved when I realised model.fit could take eval_set as a parameter.
 Also the handling of missing values was tricky due to the mix of categorical and numerical data. What helped was realising that removing one or two rows which are proving to be difficult, can actually help the model generalize better.
 
+![Screenshot: Picture of outer space](screenshots/15.png)
+
 ## References
 
 1. [Amazon Product Dataset 2020](https://www.kaggle.com/datasets/promptcloud/amazon-product-dataset-2020)

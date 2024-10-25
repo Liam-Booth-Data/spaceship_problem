@@ -39,7 +39,7 @@ From here, I decided to split the PassengerId and Cabin features to capture thei
 
 Rows containing missing values in the any of the records needed to be dropped as a large majority of machine learning models do not allow for unknown values.
 
-I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high co-linearity.
+I first tackled the room number feature, 'Num', and as it only had 199 missing values I just decided to drop these records from the dataset. This was because capturing these missing values with encoding techniques would confuse the final ML model, due to the high co-linearity.
 
 `df.dropna(subset=['Num'], inplace=True)`
 
@@ -87,7 +87,7 @@ ShoppingMall	206
 Spa	181
 VRDeck	184
 
-As there were lots of records in this dataset, I decided to impute the missing values for this features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm.
+As there were lots of records in this dataset, I decided to impute the missing values for these features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm. (ADD REFERENCE/EVIDENCE HERE)
 
 `imputer = KNNImputer(n_neighbors=5)`
 
@@ -121,7 +121,7 @@ As you can see this standardized the numeric feautres:
 
 ### Evaulating Feature Importance
 
-As I now had I large number of features, 26 to be exact, I wanted to find out which features had the most importance for this classification problem. This was largely due to the fact that a large number of the features were encoded features, and therefore I suspected alot of co-linearilty as apparent. Co-linearilty is anything bad, but it just introduces rendunant features, i.e. you could get the same information/worth out of one feature instead of two.
+As I now had I large number of features, 26 to be exact, I wanted to find out which features had the most importance for this classification problem. This was largely due to the fact that a large number of the features were encoded features, and therefore I suspected alot of co-linearilty was apparent. Co-linearilty isn't anything bad, but it just introduces rendunant features, i.e. you could get the same information/worth out of one feature instead of two.
 
 I split the features and target varaible:
 
@@ -141,7 +141,7 @@ It can be seen that in the case of training this Random Forest Classifier, the f
 
 Currently there are 26 features, a mix of categorical and numerical, within the dataset. To visualise the spread of the classes (0, 1) within 'Transported' (the target variable), I would like to reduce the dimensions to 2, whilst keeping the majority of information. This is so that I can then plot the Transported variable on a 2-dimensional scatter plot. This will then allow me to observe whether the classes are linearly seperable within Transported.
 
-To reduce the number of dimensions, a common technique is using Principal Component Analysis. In short, PCA creates a covariance matrix, obtains the eigenvectors and eigenvalues from this matrix, construct a projection matrix (W) from the (sorted) top k eigenvectors, and lastly transform the orginal matrix (your features) using the project matrix (W) to get the new k-dimensional subspace.
+To reduce the number of dimensions, a common technique is using Principal Component Analysis. In short, PCA creates a covariance matrix, obtains the eigenvectors and eigenvalues from this matrix, constructs a projection matrix (W) from the (sorted) top k eigenvectors, and lastly transform the orginal matrix (your features) using the projection matrix (W) to get the new k-dimensional subspace.
 
 The below is an graph which highlights one of the processes within PCA. It's shows that most of the variance within all of the k-features can be explained by just two featues.
 
@@ -159,7 +159,7 @@ With the features now down to two dimensions, I could visualise the Transported 
 
 ![Screenshot: PCA plot](screenshots/10.png)
 
-From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linearl seperability at all. The next stage is now to decide which model to use and carry out training and testing.
+From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linear seperability at all. The next stage is now to decide which model to use and carry out training and testing.
 
 ## Training and testing a model
 
@@ -175,7 +175,7 @@ With all these requirements listed out it is clear that XGBoost would definetly 
 
 ### Training XGBoost to predict Transported
 
-To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are off best advise from the data science community. Plus these parameters can be optimized later. 
+To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are from best advice from the data science community (ADD REFERENCE/EVIDENCE HERE). Plus these parameters can be optimized later. 
 
 ![Screenshot: Using XGBoost](screenshots/13.png)
 
@@ -183,7 +183,7 @@ We can see that the model obtained an accuracy score of 83% on the training, and
 
 ![Screenshot: Learning Curves Graph](screenshots/14.png)
 
-The preceding graph shows that the model finds the optimal weights for the model, as further training wouldn't decrease the loss by much. The graph also shows how near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), regularization (L1 or L2), or better feature selection.
+The preceding graph shows that the model finds the optimal weights for the data, as further training wouldn't decrease the loss by much. The graph also shows how, near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), further adding to the regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (ADD A REFERENCE HERE, TO SHOW WHAT THIS IS).
 
 ### Using the XGBoost to predict Transported
 
@@ -197,20 +197,22 @@ After this, the last stage is to call predict on the trained model and passing i
 
 ### Results and Analysis
 
-Due to the test set coming only with the features, I cannot see how well the model did at predicting the new unseen data. However, due to using a validation set during training I got a good idea how well this model could generalize. Due to the small difference between the train and validation accuracy scores and a small gap between there learning curves, it would be fair to say that we could expect a 80%-85% accuracy score for the test set we have just predicited.
+Due to the test set coming only with the features, I cannot see how well the model did at predicting the new unseen data. However, due to using a validation set during training I got a good idea how well this model could generalize. Due to the small difference between the train and validation accuracy scores and a small gap between their learning curves, it would be fair to say that we could expect a 80%-85% accuracy score for the test set we have just predicited.
+
+This may seem low, but when taking into account how mixed together these data points were alongs obscure patterns, I think the model has done well. Also to note the benchmark model for this task achieves 79% accruacy and this model achieve 80%+. (ADD IN REFERNCES/EVIDENCE HERE).
 
 ## Recommendations for Future Iterations
 
 1. **Incorporating Hyperparameter Tuning:** Future iterations of this project could expand from using academic suggestions for the parameters to actually using techniques like grid search or packages like Optuna which achieves the same thing. Hopefully, this would improve the accuracy of the model.
 
-2. **Stopping overfitting:** In future iterations I would also like to reduce the amount of overfitting, with techniques like regualrization, to increase the models generalizability.
+2. **Stopping overfitting:** In future iterations I would also like to reduce the amount of overfitting, by adding on the regualrization front, to increase the models generalizability.
 
-3. **Incorporate the model into MLFlow and productionise:** Consider productionising this model with tools like MLFlow and increase work effiency by using its UI for experiments when it comes to testing other models/hyperparameters.
+3. **Incorporate the model into MLFlow and productionise:** Consider productionising this model with tools like MLFlow and increase work effiency by using its UI for experiments when it comes to testing other hyperparameters/models.
 
 ## Challenges Encountered
 
-One challenge encountered during the project was trying to use and plot the validation learning curves. This was solved when I realised model.fit could take eval_set as a parameter.
-Also the handling of missing values was tricky due to the mix of categorical and numerical data. What helped was realising that removing one or two rows which are proving to be difficult, can actually help the model generalize better.
+One challenge encountered during the project was trying to use and plot the validation learning curves. This was solved when I realised `model.fit` could take `eval_set` as a parameter.
+Also the handling of missing values was tricky due to the mix of categorical and numerical data. What helped was realising that removing one or two rows which are proving to be difficult during data cleansing, can actually help the model generalize better.
 
 ![Screenshot: Picture of outer space](screenshots/15.png)
 

@@ -20,7 +20,7 @@ The initial exploration of the dataset was then conducted to gain insights into 
 
 ### Data Selection and Renaming
 
-From first thoughts, I planned to drop both 'PassengerId' and 'Name', to focus on the relevant columns for the problem. However doing further digging it seems that the passengers were split into groups and therefore share the same preffix e.g. '0001' depending on what group they were in. This would be a valuable categorical feature.
+Initially, I planned to drop 'PassengerId' and 'Name'. However, I discovered that passengers are grouped by prefixes, e.g., '0001', making it a valuable categorical feature.
 
 From here, I decided to split the PassengerId and Cabin features to capture their informations more clearly. 
 

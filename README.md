@@ -173,7 +173,7 @@ With all these requirements listed out it is clear that XGBoost would definetly 
 
 ![Screenshot: Gradient Boosting Outline](screenshots/11.png)
 
-### Using XGBoost to predict Transported
+### Training XGBoost to predict Transported
 
 To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are off best advise from the data science community. Plus these parameters can be optimized later. 
 
@@ -183,98 +183,34 @@ We can see that the model obtained an accuracy score of 83% on the training, and
 
 ![Screenshot: Learning Curves Graph](screenshots/14.png)
 
-We can see that after so many
+The preceding graph shows that the model finds the optimal weights for the model, as further training wouldn't decrease the loss by much. The graph also shows how near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), regularization (L1 or L2), or better feature selection.
 
-### Knapsack Problem Solver
+### Using the XGBoost to predict Transported
 
-We initialize the Knapsack Solver with the desired solver type and set the capacity of the knapsack (maximum weight allowed). 
-This solver type is suitable for multidimensional problems.
+So Kaggle provided two files, a train set in which we have trained the model on, and a test set which hasn't been seen yet. This test set is another csv but this time without the transported (target variable) within it. It is now the models job to predict for each of the test records (passengers) whether they were transported or not.
 
-```python
-solver = knapsack_solver.KnapsackSolver(
-    knapsack_solver.SolverType.KNAPSACK_MULTIDIMENSION_BRANCH_AND_BOUND_SOLVER,
-    "KnapsackExample",
-)
+To make sure I obtain accurate results I first carry out all the transformations I did on the train set, on the test set. This included handling any missing values, standardizing features, encoding categorical features and so on.
 
-# Capacity of the knapsack (maximum weight allowed)
-capacity = 25000
-```
+After this, the last stage is to call predict on the trained model and passing in the data you want to make predictions for. See below for the predictions variable which holds an array of the predicitons.
 
-### Preparing Data for the Solver
-
-We prepare the data for the solver by converting weights and values to integers as required by OR-Tools. 
-The number of items in the subset is also determined.
-
-```python
-weights = random_subset['weight_kg'].tolist()
-values = random_subset['price'].tolist()
-
-# Convert weights and values to integers (required by OR-Tools)
-weights = [int(w * 1000) for w in weights]  # Convert to grams (integer)
-values = [int(v * 100) for v in values]  # Convert to currency (integer)
-
-# Number of items
-num_items = len(random_subset)
-```
-
-### Solver Initialization and Solution
-
-We initialize the solver with the prepared data and solve the Knapsack Problem to find the selected items (1 for selected, 0 for not selected).
-
-```python
-# Set the solver parameters
-solver.init(values, [weights], [capacity])
-solver.solve()
-
-# Get the selected items (1 for selected, 0 for not selected)
-selected_items = [solver.best_solution_contains(i) for i in range(num_items)]
-```
+![Screenshot: Learning Curves Graph](screenshots/14.png)
 
 ### Results and Analysis
 
-We present the output, and verify the results by summing the total price and weight. 
-In this step, we encounter a discrepancy in the total weight, which prompts further investigation.
-
-![Screenshot: Results and Analysis](screenshots/02_knapsack_problem/screenshot3.png)
-
-![Screenshot: Results and Analysis Discrepancy](screenshots/02_knapsack_problem/screenshot4.png)
-
-### Addressing Discrepancy
-
-We address the discrepancy by converting the 'kg' weight column into grams. 
-After performing the conversion and re-sampling, we solve the Knapsack Problem again.
-
-```python
-def convert_grams(weight_kg):
-    weight_grams = math.ceil(weight_kg * 1000)
-
-    try:
-        return int(weight_grams)
-    except ValueError:
-        return None
-
-df['weight_grams'] = df['weight_kg'].apply(convert_grams)
-```
-
-### Reanalysis of Results
-
-We reanalyze the results with the converted weight in grams, including the total weight in kilograms and grams.
-The discrepancy still exists, but the solver does get the total weight below the target of 25,000 grams or 25kg
-
-![Screenshot: Reanalysis of Results](screenshots/02_knapsack_problem/screenshot5.png)
-
-![Screenshot: Reanalysis of Results](screenshots/02_knapsack_problem/screenshot6.png)
+Due to the test set coming only with the features, I cannot see how well the model did at predicting the new unseen data. However, due to using a validation set during training I got a good idea how well this model could generalize. Due to the small difference between the train and validation accuracy scores and a small gap between there learning curves, it would be fair to say that we could expect a 80%-85% accuracy score for the test set we have just predicited.
 
 ## Recommendations for Future Iterations
 
-1. **Multiple Knapsacks:** Future iterations of this project could expand from solving a single knapsack problem to solving multiple knapsacks simultaneously. This would be valuable for scenarios where there are multiple constraints or resources to consider.
+1. **Incorporating Hyperparameter Tuning:** Future iterations of this project could expand from using academic suggestions for the parameters to actually using techniques like grid search or packages like Optuna which achieves the same thing. Hopefully, this would improve the accuracy of the model.
 
-2. **Complex Packing Problems:** Consider tackling more complex packing problems, such as 2D or 3D bin packing, which have practical applications in logistics, manufacturing, and resource allocation.
+2. **Stopping overfitting:** In future iterations I would also like to reduce the amount of overfitting, with techniques like regualrization, to increase the models generalizability.
+
+3. **Incorporate the model into MLFlow and productionise:** Consider productionising this model with tools like MLFlow and increase work effiency by using its UI for experiments when it comes to testing other models/hyperparameters.
 
 ## Challenges Encountered
 
-One challenge encountered during the project was dealing with floating-point arithmetic limitations, which can affect the precision of calculations when working with values like weights and prices.
-While the discrepancy is small enough for this project, it's essential to be aware of such limitations in real-world applications.
+One challenge encountered during the project was trying to use and plot the validation learning curves. This was solved when I realised model.fit could take eval_set as a parameter.
+Also the handling of missing values was tricky due to the mix of categorical and numerical data. What helped was realising that removing one or two rows which are proving to be difficult, can actually help the model generalize better.
 
 ## References
 

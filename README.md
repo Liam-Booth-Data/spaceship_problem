@@ -136,7 +136,7 @@ To use XGBoost optimally, I split the dataset 95/5 into train and validation set
 
 We can see that the model obtained an accuracy score of 83% on the training, and 80% on the validation set, meaning the model probably overfitted slightly. We can plot learning curves to visualise this, and to also see whether the model converged (stabilized) during training.
 
-![Screenshot: Learning Curves Graph](screenshots/14.png)
+![Screenshot: Learning Curves Graph](screenshots/leaarning-curves.png)
 
 The graph shows the model finds optimal weights, as further training wouldn’t reduce loss significantly. Around epoch 600, the model starts overfitting; the training loss continues to decrease, but the validation loss doesn’t. This could be mitigated with early stopping (around epoch 500), adding regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (add reference here).
 
@@ -162,7 +162,7 @@ The test set only had features, so I can't confirm the model's performance on ne
 
 One challenge was plotting the validation learning curves, solved by using model.fit with eval_set parameter. Handling missing values was tricky due to mixed data types, but removing difficult rows during cleansing improved model generalization.
 
-![Screenshot: Picture of outer space](screenshots/15.png)
+![Screenshot: Picture of outer space](screenshots/space.png)
 
 ## References
 

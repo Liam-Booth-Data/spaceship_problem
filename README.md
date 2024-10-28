@@ -136,7 +136,7 @@ To use XGBoost optimally, I split the dataset 95/5 into train and validation set
 
 We can see that the model obtained an accuracy score of 83% on the training, and 80% on the validation set, meaning the model probably overfitted slightly. We can plot learning curves to visualise this, and to also see whether the model converged (stabilized) during training.
 
-![Screenshot: Learning Curves Graph](screenshots/leaarning-curves.png)
+![Screenshot: Learning Curves Graph](screenshots/learning-curves.png)
 
 The graph shows the model finds optimal weights, as further training wouldn’t reduce loss significantly. Around epoch 600, the model starts overfitting; the training loss continues to decrease, but the validation loss doesn’t. This could be mitigated with early stopping (around epoch 500), adding regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (add reference here).
 
@@ -144,7 +144,7 @@ The graph shows the model finds optimal weights, as further training wouldn’t 
 
 Kaggle provided a training set for model training and a test set without the target variable. The model's job is to predict if each test record (passenger) was transported. I applied all transformations from the training set to the test set—handling missing values, standardizing, and encoding. Finally, I used the trained model to predict the test data, resulting in an array of predictions.
 
-![Screenshot: Learning Curves Graph](screenshots/14.png)
+![Screenshot: XGBoost Predictions](screenshots/15.png)
 
 ### Results and Analysis
 

@@ -1,6 +1,9 @@
 # Spaceship Titanic Problem with Kaggle
 # ADD IN REFERENCES WHERE I HAVE TALKED ABOUT RECOMMENDED PARAMETERS
 
+![Screenshot: Picture of outer space](screenshots/space.png)
+
+
 ## Executive Summary
 
 This project explores the Spaceship Titanic problem using machine learning (classifiers), to accurately predict a target variable (whether a passenger would be transported to another dimension) depending on a set of given features. The potential benefits are adding to the data science research community by showcasing new ways of tacking this classification task, which will also help companies discover new ways to solve business problems.
@@ -161,8 +164,6 @@ The test set only had features, so I can't confirm the model's performance on ne
 ## Challenges Encountered
 
 One challenge was plotting the validation learning curves, solved by using model.fit with eval_set parameter. Handling missing values was tricky due to mixed data types, but removing difficult rows during cleansing improved model generalization.
-
-![Screenshot: Picture of outer space](screenshots/space.png)
 
 ## References
 

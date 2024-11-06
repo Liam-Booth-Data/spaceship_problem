@@ -1,8 +1,6 @@
 # Spaceship Titanic Problem with Kaggle
-# ADD IN REFERENCES WHERE I HAVE TALKED ABOUT RECOMMENDED PARAMETERS
 
 ![Screenshot: Picture of outer space](screenshots/space.png)
-
 
 ## Executive Summary
 
@@ -181,8 +179,4 @@ Also the handling of missing values was tricky due to the mix of categorical and
 
 ## References
 
-1. [Amazon Product Dataset 2020](https://www.kaggle.com/datasets/promptcloud/amazon-product-dataset-2020)
-2. [Google OR-Tools Documentation](https://developers.google.com/optimization/pack/knapsack)
-3. Medium Articles:
-   - [Exploring the Bin Packing Problem](https://medium.com/swlh/exploring-the-bin-packing-problem-f54a93ebdbe5)
-   - [The Knapsack Problem: A Guide to Solving One of the Classic Problems in Computer Science](https://levelup.gitconnected.com/the-knapsack-problem-a-guide-to-solving-one-of-the-classic-problems-in-computer-science-7b63b0851c89)
+!TODO

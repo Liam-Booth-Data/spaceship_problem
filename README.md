@@ -165,6 +165,8 @@ Due to the test set coming only with the features, I cannot see how well the mod
 
 This may seem low, but when taking into account how mixed together these data points were alongs obscure patterns, I think the model has done well. Also to note the benchmark model for this task achieves 79% accruacy and this model achieve 80%+. (ADD IN REFERNCES/EVIDENCE HERE).
 
+Therefore these results show that this model is a very strong candidate when implementing ML solutions into an business, or even updating existing ML solutions with this model if it achieves higher predictive performance than the currently implemented model. 
+
 ## Recommendations for Future Iterations
 
 1. **Incorporating Hyperparameter Tuning:** Future iterations of this project could expand from using academic suggestions for the parameters to actually using techniques like grid search or packages like Optuna which achieves the same thing. Hopefully, this would improve the accuracy of the model.

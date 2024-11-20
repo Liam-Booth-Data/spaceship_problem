@@ -135,6 +135,8 @@ With all these requirements listed out it is clear that XGBoost would definetly 
 
 ![Screenshot: Gradient Boosting Outline](screenshots/11.png)
 
+I came across the XGBoost model after doing resesrch into emerging ML models. This model was and still is one of the best models for obtaining highly accurate predictions, therefore it has seen a consistent upwards trend in it's number of use cases.
+
 ### Training XGBoost to predict Transported
 
 To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are from best advice from the data science community (ADD REFERENCE/EVIDENCE HERE). Plus these parameters can be optimized later.

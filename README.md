@@ -171,6 +171,16 @@ This may seem low, but when taking into account how mixed together these data po
 
 Therefore these results show that this model is a very strong candidate when implementing ML solutions into an business, or even updating existing ML solutions with this model if it achieves higher predictive performance than the currently implemented model. 
 
+### Practical Applications
+
+The techniques and models shown in this project can be applied to various business contexts to enhance decision-making processes. Here are a few examples:
+
+- Customer Segmentation: By predicting customer behavior, businesses can tailor their marketing strategies to target specific segments more effectively. For example predicting whether custoemrs will chrun.
+- Risk Management: Predictive models can help identify potential risks and mitigate them before they impact the business. For example, they could predict risk categories for different assets in investing.
+- Resource Allocation: By understanding and looking at the patterns and trends the model learns, businesses can optimize resource distribution to areas with the highest potential impact.
+
+These applications demonstrate how the insights gained from the solution to this problem can be leveraged to drive better business outcomes through data-driven decision-making.
+
 ## Recommendations for Future Iterations
 
 1. **Incorporating Hyperparameter Tuning:** Future iterations of this project could expand from using academic suggestions for the parameters to actually using techniques like grid search or packages like Optuna which achieves the same thing. Hopefully, this would improve the accuracy of the model.

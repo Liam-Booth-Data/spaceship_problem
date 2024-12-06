@@ -70,6 +70,10 @@ And as you can see all missing values were removed from the numeric fields:
 
 ![Screenshot: Missing Values 02](screenshots/03.png)
 
+### Why KNN Imputation?
+
+KNN Imputation works by clustering data points around a set number of centroids. This medium is effective for medium-sized datasets and is known to preserve the inherent structure of the data. Simplcity and it's effectiveness at not introducing significant bias were key factors to why this method was used within this project.
+
 ### Standardizing the Features 
 
 Standardizing features so that they have mean's of 0 and unit variances of 1, helps machine learning models converge (stabilize) during training alot quicker. In other words, it helps these models get to an optimal accuracy faster. This is due to the fact that a lot of weights and biases within Ml models are set to 0 in their initializations, and if features are standardized then the optimization algorithm (usually gradient descent) can reach the global minima quicker.

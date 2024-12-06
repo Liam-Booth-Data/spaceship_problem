@@ -132,6 +132,10 @@ With the features now down to two dimensions, I could visualise the Transported 
 
 From this plot we can now see that there is a definite pattern however the classes (yellow & purple), are mixed together with no clear linear seperability at all. The next stage is now to decide which model to use and carry out training and testing.
 
+### Why PCA for Dimensionality Reduction?
+
+PCA reduces the dimensionality of the dataset while retaining the most important variance. This method is particularly useful when dealing with high-dimensional data as it helps in visualizing the data and reduces the computational burden. PCA was chosen for this project to simplify the dataset and improve model performance.
+
 ## Training and testing a model
 
 In this section, we walk through the steps of training a ML model to solve the classification problem, with the cleaned and standardized features. The classification problem is to accuractely predict which passengers will be transported to an alternate dimension, therefore the goal is to minimize the error function (the loss). 
@@ -144,6 +148,10 @@ With all these requirements listed out it is clear that XGBoost would definetly 
 ![Screenshot: Gradient Boosting Outline](screenshots/11.png)
 
 I came across the XGBoost model after doing resesrch into emerging ML models. This model was and still is one of the best models for obtaining highly accurate predictions, therefore it has seen a consistent upwards trend in it's number of use cases.
+
+### Why XGBoost over LightGBM?
+
+XGBoost was selected due to its robust performance and wide usage in the data science community. While LightGBM is also a powerful ensemble method, XGBoost was chosen for its ability to handle sparse data and its regularization capabilities which help prevent overfitting. Additionally, XGBoost's extensive documentation and community support made it a favorable choice for this project.
 
 ### Training XGBoost to predict Transported
 

@@ -213,8 +213,8 @@ Also the handling of missing values was tricky due to the mix of categorical and
 
 ## References
 
-
 Brownlee, J. (2016). Tuning the Hyperparameters of XGBoost in Python. Machine Learning Mastery.
-Peng, D., Gui, Z. and Wu, H. (2024). Interpreting the Curse of Dimensionality from Distance Concentration and Manifold Effect.
-Aljrees, T. (2024). Improving prediction of cervical cancer using KNN imputer and multi-model ensemble learning.
 
+Peng, D., Gui, Z. and Wu, H. (2024). Interpreting the Curse of Dimensionality from Distance Concentration and Manifold Effect.
+
+Aljrees, T. (2024). Improving prediction of cervical cancer using KNN imputer and multi-model ensemble learning.

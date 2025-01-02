@@ -183,7 +183,7 @@ As the classes weren't balanced, I interested in diving into more evaluation met
 
 Starting with the F1-score, which joins together the precision and recall values, it comes out with a score of 0.62. This shows that there is some balance between the precision and recall but it isn't perfect. The recall has a score of 0.80 and the precision 0.50. These values were calculated from a classifcation matrix where: True Postivies = 1,321; True Negatives = 5,284; False Positives = 330; False Negatives = 1,321. The recall's score highlights the model's ability to accuractely predict a fair proportion of both positive and negative class records. However the model does pickup quite a few false postive and negatives which in turn is reflected in the final precision score.  
 
-Now coming back to accuracy score which was said to be the main evlaution metric for this task. It may seem low, but when taking into account how mixed together these data points were alongs obscure patterns, I think the model has done well. Also to note the benchmark model for this task achieves 79% accruacy and this model achieve 80%+. (ADD IN REFERNCES/EVIDENCE HERE).
+Now coming back to accuracy score which was said to be the main evlaution metric for this task. It may seem low, but when taking into account how mixed together these data points were alongs obscure patterns, I think the model has done well. Also to note the benchmark model for this task achieves 79% accruacy and this model achieve 80%+.
 
 Therefore these results show that this model is a very strong candidate when implementing ML solutions into an business, or even updating existing ML solutions with this model if it achieves higher predictive performance than the currently implemented model. 
 

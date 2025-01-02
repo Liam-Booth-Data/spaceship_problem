@@ -62,7 +62,7 @@ These were the missing values counts for the numeric fields `df.isnull().sum()`:
 
 ![Screenshot: Missing Values 02](screenshots/20.png)
 
-As there were lots of records in this dataset, I decided to impute the missing values for these features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm. (ADD REFERENCE/EVIDENCE HERE)
+As there were lots of records in this dataset, I decided to impute the missing values for these features using a k-nearst neighbour (KNN) algorithm. This algorithm works by clustering data points around a set number of centroids (centre points), until the data points no longer change between clusters or a set maximum number of iterations is reached. I used the KNNImputer class from the sklearn package, and set it to have 5 clusters. To note, for medium sized datasets 4-6 is the advised number of clusters for this algorithm (Aljrees, 2024).
 
 ![Screenshot: Missing Values 02](screenshots/21.png)
 
@@ -155,7 +155,7 @@ XGBoost was selected due to its robust performance and wide usage in the data sc
 
 ### Training XGBoost to predict Transported
 
-To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are from best advice from the data science community (ADD REFERENCE/EVIDENCE HERE). Plus these parameters can be optimized later.
+To use XGBoost optimially I split the dataset into train and validation sets, on a 95/5 split, then also used stratify to make sure the distribution between class 0 and 1 was the same across the train and validation sets. And then for reproducibility we set a random state of 0. Then lastly I import the XGBoost package, to utilize the XGBoost model. Again the parameters here are from best advice from the data science community (Brownlee, 2016). Plus these parameters can be optimized later.
 
 ![Screenshot: Using XGBoost](screenshots/13.png)
 
@@ -163,7 +163,7 @@ We can see that the model obtained an accuracy score of 83% on the training, and
 
 ![Screenshot: Learning Curves Graph](screenshots/learning-curves.png)
 
-The preceding graph shows that the model finds the optimal weights for the data, as further training wouldn't decrease the loss by much. The graph also shows how, near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), further adding to the regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (ADD A REFERENCE HERE, TO SHOW WHAT THIS IS).
+The preceding graph shows that the model finds the optimal weights for the data, as further training wouldn't decrease the loss by much. The graph also shows how, near the 600 epoch the model starts to learn the training data too much. This is because the loss continues to decrease on the training data but doesn't as much for the validation data. This could be reduced with early stopping (stopping training at epoch 500), further adding to the regularization (L1 or L2), or better feature selection to prevent the curse of dimensionality (Peng, Gui and Wu, 2024).
 
 ### Using the XGBoost to predict Transported
 
@@ -213,4 +213,8 @@ Also the handling of missing values was tricky due to the mix of categorical and
 
 ## References
 
-!TODO
+
+Brownlee, J. (2016). Tuning the Hyperparameters of XGBoost in Python. Machine Learning Mastery.
+Peng, D., Gui, Z. and Wu, H. (2024). Interpreting the Curse of Dimensionality from Distance Concentration and Manifold Effect.
+Aljrees, T. (2024). Improving prediction of cervical cancer using KNN imputer and multi-model ensemble learning.
+
